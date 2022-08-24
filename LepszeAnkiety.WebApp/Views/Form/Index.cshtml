@@ -1,0 +1,98 @@
+﻿@model LepszeAnkiety.WebApp.Models.FieldsWithNameModel
+@{
+	int i = 0;
+	foreach (var f in Model.fields) i++;
+	int lp = 0;
+}
+@if(i>0)
+{
+	<h2>@Model.Form.Name</h2>
+	<form method="post">
+	@foreach(var field in Model.fields)
+	{
+		@foreach(var type in Model.types)
+		{
+			@if(field.FieldTypeID == type.ID)
+			{
+				@if(type.ID == 5)
+				{
+						if (field.Required)
+						{
+							<div class="form-group">
+								<label>@field.Name</label>
+								<input class="form-check-label" type="checkbox" name="Results[@lp].Value" required />
+								<input style="display: none" type="number" name="Results[@lp].FormFieldID" value="@field.ID" />
+							</div>
+							lp++;
+						}
+						else
+						{
+							<div class="form-group">
+								<label>@field.Name*</label>
+								<input class="form-check-label" type="checkbox" name="Results[@lp].Value" />
+								<input style="display: none" type="number" name="Results[@lp].FormFieldID" value="@field.ID" />
+							</div>
+							lp++;
+						}
+					}
+				else if(type.ID == 6)
+				{
+					<div class="form-group">
+						<label>@field.Name</label>
+						<select class="form-control" name="Results[@lp].Value">
+							<option value="Polska">Polska</option>
+							<option value="Niemcy">Niemcy</option>
+							<option value="Francja">Francja</option>
+							<option value="Ukraina">Ukraina</option>
+							<option value="Hiszpania">Hiszpania</option>
+							<option value="Portugalia">Portugalia</option>
+						</select>
+						<input style="display: none" type="number" name="Results[@lp].FormFieldID" value="@field.ID" />
+					</div>
+					lp++;
+				}
+				else if(type.ID == 7)
+				{
+					<div class="form-group">
+						<label>@field.Name</label>
+						<select class="form-control" name="Results[@lp].Value">
+							<option value="Mężczyzna">Mężczyzna</option>
+							<option value="Kobieta">Kobieta</option>
+							<option value="Apache-64">Helikopter Bojowy Apache-64</option>
+						</select>
+						<input style="display: none" type="number" name="Results[@lp].FormFieldID" value="@field.ID" />
+						</div>
+						lp++;
+					}
+					else
+					{
+						if (field.Required)
+						{
+							<div class="form-group">
+								<label>@field.Name</label>
+								<input class="form-control" type="@type.Type" name="Results[@lp].Value" required />
+								<input style="display: none" type="number" name="Results[@lp].FormFieldID" value="@field.ID" />
+							</div>
+							lp++;
+						}
+						else
+						{	
+							<div class="form-group">
+								<label>@field.Name*</label>
+								<input class="form-control" type="@type.Type" name="Results[@lp].Value" />
+								<input style="display: none" type="number" name="Results[@lp].FormFieldID" value="@field.ID" />
+							</div>
+							lp++;
+						}
+					}
+				}
+		}
+	}
+	<br />
+	<input type="submit" class="btn btn-primary" />
+	</form>
+}
+else
+{
+	<h2>Brak danych...</h2>
+}

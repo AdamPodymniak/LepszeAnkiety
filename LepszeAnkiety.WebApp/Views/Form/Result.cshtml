@@ -1,0 +1,55 @@
+﻿@model LepszeAnkiety.WebApp.Models.ResultModel
+@{
+	int i = 0;
+	foreach (var r in Model.FormResult) i++;
+	int lp = 0;
+}
+@if (i > 0)
+{	
+	<h2>Wyniki dla "@Model.Form.Name"</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				@foreach(var field in Model.Fields)
+				{
+					<th>@field.Name</th>
+					lp++;
+				}
+				<th>Data wysłania</th>
+				<th>Akcje</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var formResult in Model.FormResult)
+			{
+				<tr>
+					@foreach(var result in Model.Results)
+					{
+						if(formResult.Key == result.FormResultKey)
+						{
+							if(@result.Value != null)
+							{
+								<td>@result.Value</td>
+							}
+							else
+							{
+								<td>[Brak danych]</td>
+							}
+						}
+					}
+					<td>@formResult.CreatedOn.ToShortDateString()</td>
+					<td><a class="btn btn-danger" 
+						asp-controller="Form"
+						asp-action="DeleteResult"
+						asp-route-key="@Model.Form.FormKey"
+						asp-route-formkey="@formResult.Key"
+					>Usuń</a></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<h2>Brak danych...</h2>
+}
